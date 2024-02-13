@@ -1,19 +1,18 @@
 version: 2.1
+
 jobs:
   build:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master' # Exécute ce job uniquement pour la branche master
+    docker:
+      - image: circleci/openjdk:8-jdk
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 8
-        uses: actions/setup-java@v1
-        with:
-          java-version: "8"
-      - name: Build with Maven
-        run: mvn clean test
+      - checkout # Récupération du code source du repository
+      - run:
+          name: Run Unit Tests
+          command: mvn test
+
 workflows:
   version: 2
-  build-and-test:
+  build:
     jobs:
       - build:
           filters:
