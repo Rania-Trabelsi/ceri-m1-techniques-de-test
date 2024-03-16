@@ -9,7 +9,7 @@ jobs:
       - run:
           name: Run Unit Tests
           command: mvn test
-      - codecov/codecov: # Exécution du script d'envoi de résultats à Codecov
+      - codecov/capture: # Exécution du script d'envoi de résultats à Codecov
           requires:
             - build # Attend la fin de la tâche de build
 
