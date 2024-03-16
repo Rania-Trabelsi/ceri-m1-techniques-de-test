@@ -17,6 +17,19 @@ jobs:
           command: mvn org.jacoco:jacoco-maven-plugin:report
       - codecov/upload
 
+  build-pr:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - run:
+          name: Run Unit Tests with JaCoCo for Pull Requests
+          command: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test
+      - run:
+          name: Generate JaCoCo Coverage Report for Pull Requests
+          command: mvn org.jacoco:jacoco-maven-plugin:report
+      - codecov/upload
+
 workflows:
   version: 2
   build:
@@ -25,3 +38,9 @@ workflows:
           filters:
             branches:
               only: master
+      - build-pr:
+          filters:
+            branches:
+              ignore: master
+            tags:
+              ignore: /.*/
