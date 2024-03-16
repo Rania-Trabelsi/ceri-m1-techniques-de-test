@@ -24,4 +24,4 @@ workflows:
       - upload-to-codecov:
           jobs:
             - checkout
-            - codecov/uploadm
+            - codecov/upload
