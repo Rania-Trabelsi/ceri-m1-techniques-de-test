@@ -9,6 +9,9 @@ jobs:
       - run:
           name: Run Unit Tests
           command: mvn test
+      - codecov/codecov: # Exécution du script d'envoi de résultats à Codecov
+          requires:
+            - build # Attend la fin de la tâche de build
 
 workflows:
   version: 2
@@ -18,10 +21,3 @@ workflows:
           filters:
             branches:
               only: master
-orbs:
-  codecov: codecov/codecov@4.0.1
-workflows:
-  upload-to-codecov:
-    jobs:
-      - checkout 
-      - codecov/upload
