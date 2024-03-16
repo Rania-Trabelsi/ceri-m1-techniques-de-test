@@ -8,16 +8,13 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
     steps:
-      - checkout # Récupération du code source du repository
-      - run:
-          name: Run Unit Tests
-          command: mvn test
-
-  upload-to-codecov:
-    docker:
-      - image: circleci/openjdk:8-jdk
-    steps:
       - checkout
+      - run:
+          name: Run Unit Tests with JaCoCo
+          command: mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent test
+      - run:
+          name: Generate JaCoCo Coverage Report
+          command: mvn org.jacoco:jacoco-maven-plugin:report
       - codecov/upload
 
 workflows:
@@ -28,7 +25,3 @@ workflows:
           filters:
             branches:
               only: master
-      - upload-to-codecov:
-          jobs:
-      - checkout
-      - codecov/upload
