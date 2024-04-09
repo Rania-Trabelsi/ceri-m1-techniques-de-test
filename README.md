@@ -1,5 +1,6 @@
 [![codecov](https://codecov.io/gh/Rania-Trabelsi/ceri-m1-techniques-de-test/graph/badge.svg?token=Q1S8Z78Y7O)](https://codecov.io/gh/Rania-Trabelsi/ceri-m1-techniques-de-test)
 
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/Rania-Trabelsi/ceri-m1-techniques-de-test/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/Rania-Trabelsi/ceri-m1-techniques-de-test/tree/master)
 RANIA TRABELSI
 
 

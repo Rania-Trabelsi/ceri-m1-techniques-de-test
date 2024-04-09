@@ -1,9 +1,6 @@
 package fr.univavignon.pokedex.api;
 
 import fr.univavignon.pokedex.api.impl.PokemonFactory;
-import org.junit.Before;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
