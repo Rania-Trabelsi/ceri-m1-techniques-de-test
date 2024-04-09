@@ -29,8 +29,7 @@ jobs:
       - run:
           name: Generate JaCoCo Coverage Report for Pull Requests
           command: mvn org.jacoco:jacoco-maven-plugin:report
-      - codecov/upload
-          token: CODECOV_TOKEN=0cd346f4-3f1e-45e9-8daf-d245ffb9b43d
+    
 
 workflows:
   version: 2
