@@ -1,35 +1,38 @@
 package fr.univavignon.pokedex.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import fr.univavignon.pokedex.api.impl.PokemonTrainerFactory;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import fr.univavignon.pokedex.api.*;
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class IPokemonTrainerFactoryTest {
+class IPokemonTrainerFactoryTest {
+    IPokedexFactory pokedexFactory = mock(IPokedexFactory.class);
+    IPokedex pokedex = mock(IPokedex.class);
+    PokemonTrainerFactory pokemonTrainerFactory = new PokemonTrainerFactory();
+    PokemonTrainer green =
+            pokemonTrainerFactory.createTrainer("Green", Team.MYSTIC,
+                    pokedexFactory);
 
     @Test
-    public void testCreateTrainer() {
+    void shouldReturnPokemonTrainer() {
+        assertNotNull(green);
+    }
 
-        IPokedexFactory pokedexFactoryMock = mock(IPokedexFactory.class);
-        IPokedex pokedexMock = mock(IPokedex.class);
-        when(pokedexFactoryMock.createPokedex(any(IPokemonMetadataProvider.class), any(IPokemonFactory.class))).thenReturn(pokedexMock);
+    @Test
+    void shouldReturnRightName() {
+        assertEquals("Green", green.getName());
+    }
 
-        IPokemonTrainerFactory trainerFactoryMock = mock(IPokemonTrainerFactory.class);
+    @Test
+    void shouldReturnRightTeam() {
+        assertEquals(Team.MYSTIC, green.getTeam());
+    }
 
-
-        PokemonTrainer trainer = new PokemonTrainer("Ash", Team.VALOR, pokedexMock);
-
-
-        when(trainerFactoryMock.createTrainer(eq("Ash"), eq(Team.VALOR), any(IPokedexFactory.class)))
-                .thenReturn(trainer);
-
-
-        PokemonTrainer createdTrainer = trainerFactoryMock.createTrainer("Ash", Team.VALOR, pokedexFactoryMock);
-
-        // Assertions
-        assertEquals("Ash", createdTrainer.getName());
-        assertEquals(Team.VALOR, createdTrainer.getTeam());
-        assertEquals(pokedexMock, createdTrainer.getPokedex());
+    @Test
+    void shouldReturnDifferentPokedex() {
+        assertNotEquals(pokedex, green.getPokedex());
     }
 }
