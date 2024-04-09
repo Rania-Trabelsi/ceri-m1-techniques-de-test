@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Pokemon metadata provider. Implementation of IPokemonMetadataProver.
- *
+
  */
 public class PokemonMetadataProvider implements IPokemonMetadataProvider {
     /**

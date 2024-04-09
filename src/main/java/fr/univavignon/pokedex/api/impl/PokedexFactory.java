@@ -1,13 +1,10 @@
 package fr.univavignon.pokedex.api.impl;
 
-import fr.univavignon.pokedex.api.IPokedex;
-import fr.univavignon.pokedex.api.IPokedexFactory;
-import fr.univavignon.pokedex.api.IPokemonFactory;
-import fr.univavignon.pokedex.api.IPokemonMetadataProvider;
-import fr.univavignon.pokedex.api.impl.Pokedex;
+import fr.univavignon.pokedex.api.*;
 
 /**
  * Pokedex Factoy. Is the implementation of IPokdexFacory.
+
  */
 public class PokedexFactory implements IPokedexFactory {
     /**
@@ -19,10 +16,7 @@ public class PokedexFactory implements IPokedexFactory {
     public IPokedex createPokedex(
             final IPokemonMetadataProvider metadataProvider,
             final IPokemonFactory pokemonFactory) {
-        return new Pokedex(metadataProvider, pokemonFactory);
+        return new fr.univavignon.pokedex.api.Pokedex(metadataProvider, pokemonFactory);
     }
 
-
 }
-
-

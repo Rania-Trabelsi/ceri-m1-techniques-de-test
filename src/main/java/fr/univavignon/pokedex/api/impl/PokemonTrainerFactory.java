@@ -13,7 +13,6 @@ public class PokemonTrainerFactory implements IPokemonTrainerFactory {
     /**
      * Creates and return a new trainer.
      *
-     *
      * @param name           Name of the created trainer.
      * @param team           Team of the created trainer.
      * @param pokedexFactory Factory for creating associated pokedex instance.
@@ -23,7 +22,7 @@ public class PokemonTrainerFactory implements IPokemonTrainerFactory {
     public PokemonTrainer createTrainer(final String name, final Team team,
                                         final IPokedexFactory pokedexFactory) {
         return new PokemonTrainer(name, team,
-                pokedexFactory.createPokedex(new PokemonMetaDataProvider(),
+                pokedexFactory.createPokedex(new PokemonMetadataProvider(),
                         new PokemonFactory()));
     }
 }

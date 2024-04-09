@@ -1,13 +1,11 @@
 package fr.univavignon.pokedex.api.impl;
 
-import fr.univavignon.pokedex.api.IPokemonFactory;
-import fr.univavignon.pokedex.api.PokedexException;
-import fr.univavignon.pokedex.api.Pokemon;
-import fr.univavignon.pokedex.api.PokemonMetadata;
+import fr.univavignon.pokedex.api.*;
 
 /**
  * Pokemon factory. Implementation of IPokemonFactory.
  *
+
  */
 public class PokemonFactory implements IPokemonFactory {
     /**

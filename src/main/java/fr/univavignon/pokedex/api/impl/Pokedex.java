@@ -1,8 +1,4 @@
-package fr.univavignon.pokedex.api.impl;
-
-
-
-import fr.univavignon.pokedex.api.*;
+package fr.univavignon.pokedex.api;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -11,7 +7,7 @@ import java.util.List;
 /**
  * Pokedex class. Implementation of the IPokedex interface.
  *
- *
+
  */
 public class Pokedex implements IPokedex {
     /**
