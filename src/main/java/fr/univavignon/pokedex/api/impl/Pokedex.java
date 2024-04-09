@@ -1,4 +1,6 @@
-package fr.univavignon.pokedex.api;
+package fr.univavignon.pokedex.api.impl;
+
+import fr.univavignon.pokedex.api.*;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -47,6 +49,8 @@ public class Pokedex implements IPokedex {
     public int size() {
         return pokemonsArrayList.size();
     }
+
+
 
     /**
      * @param pokemon Pokemon to add to this pokedex.
