@@ -22,4 +22,7 @@ public class PokedexFactory implements IPokedexFactory {
         return new Pokedex(metadataProvider, pokemonFactory);
     }
 
+
 }
+
+

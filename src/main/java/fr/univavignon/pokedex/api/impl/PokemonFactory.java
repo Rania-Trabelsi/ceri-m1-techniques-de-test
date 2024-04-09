@@ -33,7 +33,7 @@ public class PokemonFactory implements IPokemonFactory {
         PokemonMetadata pokemonMetadata;
         try {
             pokemonMetadata =
-                    new PokemonMetadataProvider().getPokemonMetadata(index);
+                    new PokemonMetaDataProvider().getPokemonMetadata(index);
         } catch (PokedexException pe) {
             return null;
         }

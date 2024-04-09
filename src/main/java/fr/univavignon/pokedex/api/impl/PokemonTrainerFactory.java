@@ -23,7 +23,7 @@ public class PokemonTrainerFactory implements IPokemonTrainerFactory {
     public PokemonTrainer createTrainer(final String name, final Team team,
                                         final IPokedexFactory pokedexFactory) {
         return new PokemonTrainer(name, team,
-                pokedexFactory.createPokedex(new PokemonMetadataProvider(),
+                pokedexFactory.createPokedex(new PokemonMetaDataProvider(),
                         new PokemonFactory()));
     }
 }
