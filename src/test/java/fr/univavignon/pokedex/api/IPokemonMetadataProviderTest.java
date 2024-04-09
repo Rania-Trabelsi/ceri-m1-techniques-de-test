@@ -1,55 +1,79 @@
 package fr.univavignon.pokedex.api;
 
+import fr.univavignon.pokedex.api.impl.PokemonMetadataProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.function.Executable;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class IPokemonMetadataProviderTest {
+    PokemonMetadata bulbizarre =
+            new PokemonMetadata(0, "Bulbizarre", 126, 126, 90);
+    PokemonMetadata aquali = new PokemonMetadata(133, "Aquali", 186, 168, 260);
+    IPokemonMetadataProvider pokemonMetadataProvider =
+            new PokemonMetadataProvider();
 
-    private IPokemonMetadataProvider metadataProvider;
+    @Test
+    void shouldThrowPokedexExceptionBecauseOfLowerBound() {
+        Exception thrown = assertThrows(PokedexException.class, () -> {
+            pokemonMetadataProvider.getPokemonMetadata(-1);
+        });
 
-    @BeforeEach
-    void setUp() {
-        metadataProvider = mock(IPokemonMetadataProvider.class);
+        assertEquals(thrown.getMessage(),
+                "Pokemon's indexes are between 0 and 150.");
     }
 
     @Test
-    void testGetPokemonMetadata_ValidIndexBulbasaur() throws PokedexException {
-        when(metadataProvider.getPokemonMetadata(0)).thenReturn(new PokemonMetadata(0, "Bulbizarre", 126, 126, 90));
+    void shouldThrowPokedexExceptionBecausOfUpperBound() {
+        Exception thrown = assertThrows(PokedexException.class, () -> {
+            pokemonMetadataProvider.getPokemonMetadata(151);
+        });
 
-        PokemonMetadata metadata = metadataProvider.getPokemonMetadata(0);
-
-        assertNotNull(metadata, "Les métadonnées ne devraient pas être null");
-        assertEquals("Bulbizarre", metadata.getName(), "Le nom du Pokémon devrait être Bulbizarre");
-        assertEquals(126, metadata.getAttack(), "L'attaque de Bulbizarre devrait être 126");
-        assertEquals(126, metadata.getDefense(), "La défense de Bulbizarre devrait être 126");
-        assertEquals(90, metadata.getStamina(), "L'endurance de Bulbizarre devrait être 90");
+        assertEquals(thrown.getMessage(),
+                "Pokemon's indexes are between 0 and 150.");
     }
 
     @Test
-    void testGetPokemonMetadata_ValidIndexAquali() throws PokedexException {
-        when(metadataProvider.getPokemonMetadata(133)).thenReturn(new PokemonMetadata(133, "Aquali", 186, 168, 260));
-
-        PokemonMetadata metadata = metadataProvider.getPokemonMetadata(133);
-
-        assertNotNull(metadata, "Les métadonnées ne devraient pas être null");
-        assertEquals("Aquali", metadata.getName(), "Le nom du Pokémon devrait être Aquali");
-        assertEquals(186, metadata.getAttack(), "L'attaque d'Aquali devrait être 186");
-        assertEquals(168, metadata.getDefense(), "La défense d'Aquali devrait être 168");
-        assertEquals(260, metadata.getStamina(), "L'endurance d'Aquali devrait être 260");
+    void getIndexTest() throws PokedexException {
+        assertEquals(bulbizarre.getIndex(),
+                pokemonMetadataProvider.getPokemonMetadata(0).getIndex());
+        assertEquals(aquali.getIndex(),
+                pokemonMetadataProvider.getPokemonMetadata(133).getIndex());
     }
 
     @Test
-    void testGetPokemonMetadata_InvalidIndex_ThrowsException() {
-        int invalidIndex = -1; // or any invalid index that should trigger the exception
-        try {
-            when(metadataProvider.getPokemonMetadata(invalidIndex)).thenThrow(PokedexException.class);
-        } catch (PokedexException e) {
-            throw new RuntimeException(e);
-        }
-
-        assertThrows(PokedexException.class, () -> metadataProvider.getPokemonMetadata(invalidIndex));
+    void getNameTest() throws PokedexException {
+        assertEquals(bulbizarre.getName(),
+                pokemonMetadataProvider.getPokemonMetadata(0).getName());
+        assertEquals(aquali.getName(),
+                pokemonMetadataProvider.getPokemonMetadata(133).getName());
     }
 
+    @Test
+    void getAttackTest() throws PokedexException {
+        assertEquals(bulbizarre.getAttack(),
+                pokemonMetadataProvider.getPokemonMetadata(0).getAttack());
+        assertEquals(aquali.getAttack(),
+                pokemonMetadataProvider.getPokemonMetadata(133).getAttack());
+    }
+
+    @Test
+    void getDefenseTest() throws PokedexException {
+        assertEquals(bulbizarre.getDefense(),
+                pokemonMetadataProvider.getPokemonMetadata(0).getDefense());
+        assertEquals(aquali.getDefense(),
+                pokemonMetadataProvider.getPokemonMetadata(133).getDefense());
+    }
+
+    @Test
+    void getStaminaTest() throws PokedexException {
+        assertEquals(bulbizarre.getStamina(),
+                pokemonMetadataProvider.getPokemonMetadata(0).getStamina());
+        assertEquals(aquali.getStamina(),
+                pokemonMetadataProvider.getPokemonMetadata(133).getStamina());
+
+    }
 }
