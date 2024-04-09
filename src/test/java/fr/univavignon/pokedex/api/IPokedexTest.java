@@ -1,5 +1,6 @@
 package fr.univavignon.pokedex.api;
 
+import fr.univavignon.pokedex.api.impl.Pokedex;
 import fr.univavignon.pokedex.api.impl.PokemonFactory;
 import fr.univavignon.pokedex.api.impl.PokemonMetadataProvider;
 import org.junit.jupiter.api.BeforeEach;
@@ -27,7 +28,7 @@ class IPokedexTest {
 
     @BeforeEach
     void setUp() throws IndexOutOfBoundsException {
-        pokedex = new fr.univavignon.pokedex.api.Pokedex(pokemonMetadataProvider, pokemonFactory);
+        pokedex = new Pokedex(pokemonMetadataProvider, pokemonFactory);
         pokedex.addPokemon(bulbizarre);
         pokemonList.add(bulbizarre);
     }

@@ -16,7 +16,7 @@ public class PokedexFactory implements IPokedexFactory {
     public IPokedex createPokedex(
             final IPokemonMetadataProvider metadataProvider,
             final IPokemonFactory pokemonFactory) {
-        return new fr.univavignon.pokedex.api.Pokedex(metadataProvider, pokemonFactory);
+        return new Pokedex(metadataProvider, pokemonFactory);
     }
 
 }

@@ -1,5 +1,6 @@
 package fr.univavignon.pokedex.api;
 
+import fr.univavignon.pokedex.api.impl.Pokedex;
 import fr.univavignon.pokedex.api.impl.PokedexFactory;
 import fr.univavignon.pokedex.api.impl.PokemonFactory;
 import fr.univavignon.pokedex.api.impl.PokemonMetadataProvider;
@@ -21,7 +22,7 @@ class IPokedexFactoryTest {
 
     @BeforeEach
     public void setUp() {
-        pokedex = new fr.univavignon.pokedex.api.Pokedex(pokemonMetadataProvider, pokemonFactory);
+        pokedex = new Pokedex(pokemonMetadataProvider, pokemonFactory);
     }
 
     @Test
