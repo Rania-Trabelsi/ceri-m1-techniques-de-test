@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Pokemon metadata provider. Implementation of IPokemonMetadataProver.
  *
  */
-public class PokemonMetaDataProvider implements IPokemonMetadataProvider {
+public class PokemonMetadataProvider implements IPokemonMetadataProvider {
     /**
      * pokemonMetadataArrayList contains the metadata of all Pokemons.
      */
@@ -36,7 +36,7 @@ public class PokemonMetaDataProvider implements IPokemonMetadataProvider {
     /**
      *
      */
-    public PokemonMetaDataProvider() {
+    public PokemonMetadataProvider() {
         pokemonMetadataArrayList = new ArrayList<>();
         final int bulbizarreAttack = 126;
         final int bulbizarreDefense = 126;
