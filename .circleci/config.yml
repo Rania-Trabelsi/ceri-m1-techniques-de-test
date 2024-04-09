@@ -16,6 +16,10 @@ jobs:
           name: Generate JaCoCo Coverage Report
           command: mvn org.jacoco:jacoco-maven-plugin:report
       - codecov/upload
+      
+      # Upload coverage report to Codecov
+      - codecov/upload:
+          token: $CODECOV_TOKEN
 
   build-pr:
     docker:
