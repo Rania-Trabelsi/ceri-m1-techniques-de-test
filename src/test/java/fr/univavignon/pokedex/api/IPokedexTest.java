@@ -1,67 +1,119 @@
 package fr.univavignon.pokedex.api;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.*;
+import fr.univavignon.pokedex.api.impl.PokemonFactory;
+import fr.univavignon.pokedex.api.impl.PokemonMetadataProvider;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
-import java.util.Arrays;
-import java.util.Comparator;
+import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class IPokedexTest {
-    private IPokedex pokedex;
+class IPokedexTest {
+    IPokemonMetadataProvider pokemonMetadataProvider =
+            new PokemonMetadataProvider();
+    IPokemonFactory pokemonFactory = new PokemonFactory();
+    IPokedex pokedex;
+    Pokemon bulbizarre =
+            new Pokemon(0, "Bulbizarre", 126, 126, 90, 613, 64, 4000, 4, 56);
+    Pokemon aquali =
+            new Pokemon(133, "Aquali", 186, 168, 260, 2729, 202, 5000, 5, 1000);
+    List<Pokemon> pokemonList = new ArrayList<>();
 
-    @Before
-
-    public void setUp() {
-        pokedex = mock(IPokedex.class);
+    @BeforeEach
+    void setUp() throws IndexOutOfBoundsException {
+        pokedex = new fr.univavignon.pokedex.api.Pokedex(pokemonMetadataProvider, pokemonFactory);
+        pokedex.addPokemon(bulbizarre);
+        pokemonList.add(bulbizarre);
     }
 
     @Test
-    public void testAddPokemon() {
-        Pokemon bulbasaur = new Pokemon(0, "Bulbasaur", 126, 126, 90, 613, 64, 4000, 4, 56);
-        when(pokedex.addPokemon(bulbasaur)).thenReturn(0);
+    void shouldThrowPokedexException() {
+        Exception thrown = assertThrows(PokedexException.class, () -> {
+            pokedex.getPokemon(-1);
+        });
 
-        int index = pokedex.addPokemon(bulbasaur);
-
-        assertEquals(0, index);
-        verify(pokedex).addPokemon(bulbasaur);
+        assertEquals(thrown.getMessage(), "Pokemon not found.");
     }
 
     @Test
-    public void testGetPokemon() throws PokedexException {
-        Pokemon bulbasaur = new Pokemon(0, "Bulbasaur", 126, 126, 90, 613, 64, 4000, 4, 56);
-        when(pokedex.getPokemon(0)).thenReturn(bulbasaur);
-
-        Pokemon result = pokedex.getPokemon(0);
-
-        assertEquals(bulbasaur, result);
-        verify(pokedex).getPokemon(0);
+    void shouldRetunMinusOne(){
+        int index = pokedex.addPokemon(null);
+        assertEquals(index, -1);
     }
 
     @Test
-    public void testGetSize() {
-        when(pokedex.size()).thenReturn(1);
-
-        int size = pokedex.size();
-
-        assertEquals(1, size);
-        verify(pokedex).size();
+    void shouldGetRightMetadata() throws PokedexException {
+        assertEquals(pokedex.getPokemonMetadata(0), pokemonMetadataProvider.getPokemonMetadata(0));
+    }
+    @Test
+    void shouldCreateTheRightPokemon() throws PokedexException {
+        Pokemon pokemon = pokedex.createPokemon(42, 1, 2, 3, 4);
+        int index = pokedex.addPokemon(pokemon);
+        assertEquals(pokedex.getPokemon(index), pokemon);
+        assertEquals(pokemon.getCp(), 1);
+        assertEquals(pokemon.getHp(), 2);
+        assertEquals(pokemon.getDust(), 3);
+        assertEquals(pokemon.getCandy(), 4);
     }
 
     @Test
-    public void testGetPokemons() {
-        Pokemon bulbasaur = new Pokemon(0, "Bulbasaur", 126, 126, 90, 613, 64, 4000, 4, 56);
-        Pokemon ivysaur = new Pokemon(1, "Ivysaur", 186, 168, 260, 2729, 202, 5000, 4, 100);
-        when(pokedex.getPokemons()).thenReturn(Arrays.asList(bulbasaur, ivysaur));
-
-        List<Pokemon> pokemons = pokedex.getPokemons();
-
-        assertEquals(Arrays.asList(bulbasaur, ivysaur), pokemons);
-        verify(pokedex).getPokemons();
+    void shouldReturnSameSize() {
+        assertEquals(pokedex.size(), pokemonList.size());
     }
+
+    @Test
+    void shouldReturnTheSameIndex() throws PokedexException {
+        int currentIndex = pokemonList.size();
+        assertEquals(pokedex.addPokemon(aquali), currentIndex);
+        pokemonList.add(aquali);
+    }
+
+    @Test
+    void shouldReturnTheRightPokemon() throws PokedexException {
+        assertEquals(pokedex.getPokemon(0), pokemonList.get(0));
+        assertEquals(pokedex.getPokemon(0).getIndex(), bulbizarre.getIndex());
+        assertEquals(pokedex.getPokemon(0).getName(), bulbizarre.getName());
+        assertEquals(pokedex.getPokemon(0).getAttack(), bulbizarre.getAttack());
+        assertEquals(pokedex.getPokemon(0).getDefense(),
+                bulbizarre.getDefense());
+        assertEquals(pokedex.getPokemon(0).getStamina(),
+                bulbizarre.getStamina());
+        assertEquals(pokedex.getPokemon(0).getCp(), bulbizarre.getCp());
+        assertEquals(pokedex.getPokemon(0).getCandy(), bulbizarre.getCandy());
+        assertEquals(pokedex.getPokemon(0).getDust(), bulbizarre.getDust());
+        assertEquals(pokedex.getPokemon(0).getHp(), bulbizarre.getHp());
+        assertEquals(pokedex.getPokemon(0).getIv(), bulbizarre.getIv());
+
+        assertNotEquals(pokedex.getPokemon(0).getName(), aquali.getName());
+    }
+
+    @Test
+    void shouldReturnSamePokemonList() throws PokedexException {
+        assertEquals(pokedex.getPokemons(), pokemonList);
+    }
+
+    @Test
+    void shouldHaveSameNumberOfPokemons() {
+        assertEquals(pokedex.getPokemons().size(), pokemonList.size());
+    }
+
+    @Test
+    void shouldReturnListOrderedByIndexAndByNames() {
+        pokemonList.add(aquali);
+        pokedex.addPokemon(aquali);
+        assertEquals(pokemonList,
+                pokedex.getPokemons(PokemonComparators.INDEX));
+        ArrayList<Pokemon> pokemonsOrderedByName = new ArrayList<>();
+        pokemonsOrderedByName.add(aquali);
+        pokemonsOrderedByName.add(bulbizarre);
+        assertEquals(pokemonsOrderedByName,
+                pokedex.getPokemons(PokemonComparators.NAME));
+    }
+
 }
